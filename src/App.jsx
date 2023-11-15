@@ -7,7 +7,7 @@ function App() {
 
 
     return (
-        <>
+        <div className="site-content">
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -15,10 +15,9 @@ function App() {
                 <Route path="/live-cameras" element={<Home />} />
                 <Route path="/photos" element={<Home />} />
                 <Route path="/contact" element={<Home />} />
-
             </Routes>
             <Footer />
-        </>
+        </div>
     )
 }
 

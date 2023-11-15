@@ -1,0 +1,37 @@
+.options {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #009ad8;
+    background-color: #262936;
+}
+
+.options-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    cursor: pointer;
+    padding: 8px;
+    transition: background-color 0.2s;
+}
+
+li:hover {
+    background-color: #009ad8;
+}
+
+.table-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-cell {
+    flex: 1;
+    padding: 4px;
+    border-bottom: 1px solid #ccc;
+}
+
+.hidden {
+    display: none;
+}

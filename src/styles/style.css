@@ -340,7 +340,6 @@ form input[type="reset"] {
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
-  *zoom: 1;
 }
 
 .container:after {
@@ -374,7 +373,6 @@ form input[type="reset"] {
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
-  *zoom: 1;
 }
 
 .container-fluid:after {
@@ -388,7 +386,6 @@ form input[type="reset"] {
 .row {
   margin-left: -15px;
   margin-right: -15px;
-  *zoom: 1;
 }
 
 .row:after {
