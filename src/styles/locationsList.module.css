@@ -1,5 +1,5 @@
 .options {
-    max-height: 200px;
+    max-height: 100vh;
     overflow-y: auto;
     border: 1px solid #009ad8;
     background-color: #262936;

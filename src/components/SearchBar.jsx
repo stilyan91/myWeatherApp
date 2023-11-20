@@ -12,18 +12,24 @@ const SearchBar = () => {
 
     const findLocationHandler = async (e) => {
         e.preventDefault();
-        setShowSuggestions(true);
-        const result = await getLocation();
-        setResultLocation(result);
+        try {
+            const result = await getLocation(locationQuery);
+            setResultLocation(result);
+            setShowSuggestions(true);
+        } catch (error) {
+            console.error(error);
+            setShowSuggestions(false);
+        };
+
     };
 
     const selectLocationHandler = (selectedLocation) => {
 
-        console.log(selectedLocation);
+
     };
 
     useEffect(() => {
-        console.log(resultLocation)
+        console.log(locationQuery)
     }, [resultLocation]);
 
     return (
@@ -41,7 +47,7 @@ const SearchBar = () => {
                 <div className={`${showSuggestions ? styleLocation.options : 'hidden'}`}>
                     <ul className={`${styleLocation['options-list']}`} >
                         {resultLocation.map((location) => (
-                            <li key={location.key} className={styleLocation.li} onClick={() => selectLocationHandler(location)}>
+                            <li key={location.key} className={styleLocation.li} onClick={() => selectLocationHandler}>
                                 <div className={`table-row ${styleLocation['table-row']} `} >
                                     <div className={`table-cell ${styleLocation['table-cell']}`}>Type: {location.Type}</div>
                                     <div className={`table-cell ${styleLocation['table-cell']}`}>Name: {location.LocalizedName}</div>

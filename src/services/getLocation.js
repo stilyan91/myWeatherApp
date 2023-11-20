@@ -1,12 +1,13 @@
 const accuWeatherApiKey = import.meta.env.VITE_REACT_APP_API_KEY;
-
-const location = 'New Yo'
 const language = '&language=en-us'
-const baseUrl = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${accuWeatherApiKey}&q=${location}${language} `;
+const validCharactersPattern = /^[A-Za-z\s,.'-]+$/;
 
+const getLocation = async (location) => {
+    if (!validCharactersPattern.test(location)) {
+        throw new Error("Invalid characters in location");
 
-
-const getLocation = async () => {
+    }
+    const baseUrl = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${accuWeatherApiKey}&q=${location}${language} `;
     console.log(baseUrl)
     try {
         const response = await fetch(baseUrl)
