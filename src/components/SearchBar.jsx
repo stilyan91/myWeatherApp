@@ -4,14 +4,30 @@ import ForecastDashboard from './ForecastDashboard';
 
 import LocationListItem from './LocationListItem';
 import getLocation from '../services/getLocation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 
+
+const initialState = {
+    Version: 1,
+    Key: '',
+    Type: '',
+    Rank: 0,
+    LocalizedName: '',
+    AdministrativeArea: {
+        ID: '',
+        LocalizedName: ''
+    },
+    Country: {
+        ID: '',
+        LocalizedName: ''
+    }
+}
 
 const SearchBar = () => {
     const [locationQuery, setLocationQuery] = useState('');
     const [resultLocation, setResultLocation] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const [selectedLocation, setSelectedLocation] = useState({});
+    const [selectedLocation, setSelectedLocation] = useState(initialState);
 
 
     const findLocationHandler = async (e) => {
@@ -30,7 +46,7 @@ const SearchBar = () => {
 
     useEffect(() => {
         findLocationHandler
-        console.log(selectedLocation);
+        console.log(selectedLocation)
     }, [selectedLocation, locationQuery]);
 
     const selectLocationHandler = (desiredLocation) => {

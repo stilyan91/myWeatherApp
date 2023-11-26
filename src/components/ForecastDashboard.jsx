@@ -24,7 +24,6 @@ const ForecastDashboard = ({
                             <span><img src="images/icon-compass.png" alt="" />East</span>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
