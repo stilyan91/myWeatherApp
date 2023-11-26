@@ -1,6 +1,9 @@
 import styles from '../styles/heroContainer.module.css';
-import getLocation from '../services/getLocation';
 import styleLocation from '../styles/locationsList.module.css';
+import ForecastDashboard from './ForecastDashboard';
+
+import LocationListItem from './LocationListItem';
+import getLocation from '../services/getLocation';
 import { useState, useEffect } from 'react';
 
 
@@ -8,6 +11,7 @@ const SearchBar = () => {
     const [locationQuery, setLocationQuery] = useState('');
     const [resultLocation, setResultLocation] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [selectedLocation, setSelectedLocation] = useState({});
 
 
     const findLocationHandler = async (e) => {
@@ -16,6 +20,7 @@ const SearchBar = () => {
             const result = await getLocation(locationQuery);
             setResultLocation(result);
             setShowSuggestions(true);
+            setLocationQuery('')
         } catch (error) {
             console.error(error);
             setShowSuggestions(false);
@@ -23,14 +28,17 @@ const SearchBar = () => {
 
     };
 
-    const selectLocationHandler = (selectedLocation) => {
+    useEffect(() => {
+        findLocationHandler
+        console.log(selectedLocation);
+    }, [selectedLocation, locationQuery]);
 
+    const selectLocationHandler = (desiredLocation) => {
+        setSelectedLocation(desiredLocation);
 
     };
 
-    useEffect(() => {
-        console.log(locationQuery)
-    }, [resultLocation]);
+
 
     return (
         <div className={`hero ${styles.hero}`}>
@@ -46,15 +54,11 @@ const SearchBar = () => {
                 </form>
                 <div className={`${showSuggestions ? styleLocation.options : 'hidden'}`}>
                     <ul className={`${styleLocation['options-list']}`} >
-                        {resultLocation.map((location) => (
-                            <li key={location.key} className={styleLocation.li} onClick={() => selectLocationHandler}>
-                                <div className={`table-row ${styleLocation['table-row']} `} >
-                                    <div className={`table-cell ${styleLocation['table-cell']}`}>Type: {location.Type}</div>
-                                    <div className={`table-cell ${styleLocation['table-cell']}`}>Name: {location.LocalizedName}</div>
-                                    <div className={`table-cell ${styleLocation['table-cell']}`}>Country: {location.Country.LocalizedName}</div>
-                                    <div className={`table-cell ${styleLocation['table-cell']}`}>Administrative Area: {location.AdministrativeArea.LocalizedName}</div>
-                                </div>
-                            </li>
+
+                        {showSuggestions && resultLocation.map((location) => (
+                            <LocationListItem key={location.key}
+                                location={location}
+                                onSelectLocation={selectLocationHandler} />
                         ))
                         }
                     </ul>

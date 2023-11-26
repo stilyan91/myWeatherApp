@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <div className="site-header">
             <div className="container">
-                <Link to="index.html" className="branding">
+                <Link to="/" className="branding">
                     <img src="images/logo.png" alt="" className="logo" />
                     <div className="logo-type">
                         <h1 className="site-title">MyWeatherApp</h1>

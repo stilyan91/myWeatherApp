@@ -11,10 +11,8 @@ function App() {
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/news" element={<Home />} />
-                <Route path="/live-cameras" element={<Home />} />
-                <Route path="/photos" element={<Home />} />
-                <Route path="/contact" element={<Home />} />
+                <Route path="/register" element={<Home />} />
+                <Route path="/login" element={<Home />} />
             </Routes>
             <Footer />
         </div>

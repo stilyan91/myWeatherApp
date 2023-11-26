@@ -1,4 +1,6 @@
-const ForecastDashboard = () => {
+const ForecastDashboard = ({
+    selectedLocation,
+}) => {
 
     return (
         <div className="forecast-table">
@@ -10,7 +12,7 @@ const ForecastDashboard = () => {
                             <div className="date">6 Oct</div>
                         </div>
                         <div className="forecast-content">
-                            <div className="location">New York</div>
+                            <div className="location"></div>
                             <div className="degree">
                                 <div className="num">23<sup>o</sup>C</div>
                                 <div className="forecast-icon">

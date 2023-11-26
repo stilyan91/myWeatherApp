@@ -3,12 +3,11 @@ const language = '&language=en-us'
 const validCharactersPattern = /^[A-Za-z\s,.'-]+$/;
 
 const getLocation = async (location) => {
-    if (!validCharactersPattern.test(location)) {
+    if (!validCharactersPattern.test(location) || location === '') {
         throw new Error("Invalid characters in location");
 
     }
     const baseUrl = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${accuWeatherApiKey}&q=${location}${language} `;
-    console.log(baseUrl)
     try {
         const response = await fetch(baseUrl)
         if (!response.ok) {
