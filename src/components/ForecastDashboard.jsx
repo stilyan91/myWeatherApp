@@ -1,7 +1,8 @@
 const ForecastDashboard = ({
     selectedLocation,
 }) => {
-
+    const currentTime = new Date();
+    console.log(currentTime);
     return (
         <div className="forecast-table">
             <div className="container">
