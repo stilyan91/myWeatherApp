@@ -5,3 +5,5 @@ const formatDate = (localTime) => {
     const dateFormatter = new Intl.DateTimeFormat("en-US", { timeZone: targetTimeZone });
     return dateFormatter.format(localObservationDateTime);
 }
+
+export default formatDate;

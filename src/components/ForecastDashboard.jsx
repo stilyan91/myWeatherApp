@@ -1,8 +1,16 @@
-const ForecastDashboard = ({
-    selectedLocation,
-}) => {
-    const currentTime = new Date();
-    console.log(currentTime);
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import formatDate from '../utils/convertTime';
+
+
+const ForecastDashboard = () => {
+    const { locationKey } = useParams();
+
+    useEffect(() => {
+        console.log(locationKey)
+
+    }, [locationKey]);
+
     return (
         <div className="forecast-table">
             <div className="container">

@@ -1,11 +1,11 @@
-import styles from '../styles/heroContainer.module.css';
-import styleLocation from '../styles/locationsList.module.css';
+import { useState, useEffect, } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-
+import ForecastDashboard from './ForecastDashboard';
 import LocationListItem from './LocationListItem';
 import getLocation from '../services/getLocation';
-import { useState, useEffect, useReducer } from 'react';
-
+import styles from '../styles/heroContainer.module.css';
+import styleLocation from '../styles/locationsList.module.css';
 
 const initialState = {
     Version: 1,
@@ -28,7 +28,7 @@ const SearchBar = () => {
     const [resultLocation, setResultLocation] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState(initialState);
-
+    const navigate = useNavigate();
 
     const findLocationHandler = async (e) => {
         e.preventDefault();
@@ -44,17 +44,14 @@ const SearchBar = () => {
 
     };
 
-    useEffect(() => {
-        findLocationHandler
-        console.log(selectedLocation)
-    }, [selectedLocation, locationQuery]);
+    // useEffect(() => {
+
+    // }, [locationQuery]);
 
     const selectLocationHandler = (desiredLocation) => {
         setSelectedLocation(desiredLocation);
-
+        navigate('/' + desiredLocation.Key, { replace: true })
     };
-
-
 
     return (
         <div className={`hero ${styles.hero}`}>
@@ -72,7 +69,7 @@ const SearchBar = () => {
                     <ul className={`${styleLocation['options-list']}`} >
 
                         {showSuggestions && resultLocation.map((location) => (
-                            <LocationListItem key={location.key}
+                            <LocationListItem key={location.Key}
                                 location={location}
                                 onSelectLocation={selectLocationHandler} />
                         ))
