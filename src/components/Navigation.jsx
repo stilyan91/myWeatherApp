@@ -12,8 +12,8 @@ const Navigation = () => {
             <button type="button" className="menu-toggle" onClick={toggleMenu}><i className="fa fa-bars"></i></button>
             <ul className={isMenuOpen ? 'menu-open' : 'menu'}>
                 <li className="menu-item"><Link to="/">Home</Link></li>
-                <li className="menu-item"><Link to="/news">Register</Link></li>
-                <li className="menu-item"><Link to="/live-cameras">Login</Link></li>
+                <li className="menu-item"><Link to="/register">Register</Link></li>
+                <li className="menu-item"><Link to="/login">Login</Link></li>
             </ul>
         </div>
 

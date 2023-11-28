@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ForecastDashboard from './ForecastDashboard';
 import LocationListItem from './LocationListItem';
-import getLocation from '../services/getLocation';
+import { getLocation } from '../services/getLocation';
 import styles from '../styles/heroContainer.module.css';
 import styleLocation from '../styles/locationsList.module.css';
 
