@@ -29,10 +29,12 @@ template {
 }
 
 html {
+  height: 100%;
   background: #fff;
   color: #000;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+
 }
 
 html,
@@ -41,11 +43,6 @@ input,
 select,
 textarea {
   font-family: sans-serif;
-}
-
-body {
-  margin: 0;
-  height: 100vh;
 }
 
 a {
@@ -267,13 +264,10 @@ body {
   height: 100%;
 }
 
-#root {
-  height: 100%;
-}
 
 .site-content {
-  min-height: 100vh;
-  overflow: scroll;
+  height: 100%;
+  overflow: hidden;
 }
 
 h1,
@@ -2350,7 +2344,7 @@ form input[type="reset"] {
  * Footer Styles
  */
 .site-footer {
-  height: 10vh;
+  height: 10%;
   background: #262936;
   padding: 50px 0;
   position: fixed;
