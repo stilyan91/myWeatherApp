@@ -1,33 +1,17 @@
 import { useState, useEffect, } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ForecastDashboard from './ForecastDashboard';
 import LocationListItem from './LocationListItem';
 import { getLocation } from '../services/getLocation';
 import styles from '../styles/heroContainer.module.css';
 import styleLocation from '../styles/locationsList.module.css';
-
-const initialState = {
-    Version: 1,
-    Key: '',
-    Type: '',
-    Rank: 0,
-    LocalizedName: '',
-    AdministrativeArea: {
-        ID: '',
-        LocalizedName: ''
-    },
-    Country: {
-        ID: '',
-        LocalizedName: ''
-    }
-}
+import { useCurrentLocationContext } from '../context/currentLocationContext';
 
 const SearchBar = () => {
     const [locationQuery, setLocationQuery] = useState('');
     const [resultLocation, setResultLocation] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const [selectedLocation, setSelectedLocation] = useState(initialState);
+    const { selectedLocation, setSelectedLocation } = useCurrentLocationContext();
     const navigate = useNavigate();
 
     const findLocationHandler = async (e) => {
@@ -44,11 +28,8 @@ const SearchBar = () => {
 
     };
 
-    // useEffect(() => {
-
-    // }, [locationQuery]);
-
     const selectLocationHandler = (desiredLocation) => {
+        console.log("Setting selected location:", desiredLocation);
         setSelectedLocation(desiredLocation);
         navigate('/' + desiredLocation.Key, { replace: true })
     };
