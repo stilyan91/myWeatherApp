@@ -155,6 +155,7 @@ sub {
 
 img {
   border: 0;
+  padding-right: 20px;
 }
 
 svg:not(:root) {
@@ -1808,9 +1809,11 @@ form input[type="reset"] {
 .forecast-container {
   width: 100%;
   background: #323544;
-  display: table;
-  table-layout: fixed;
-  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  /* table-layout: fixed; */
+  max-height: 250px;
   overflow: hidden;
   border-radius: 10px;
   margin-top: -150px;
@@ -1818,8 +1821,11 @@ form input[type="reset"] {
 }
 
 .forecast-container .forecast {
-  display: table-cell;
-  vertical-align: top;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 100px;
+  height: 250px;
+
 }
 
 .forecast-container .forecast:nth-child(even) {
@@ -1835,7 +1841,9 @@ form input[type="reset"] {
 }
 
 .forecast-container .forecast.today {
-  width: 420px;
+  max-height: 250px;
+  max-width: 450px;
+  flex: 1;
 }
 
 
@@ -1875,7 +1883,7 @@ form input[type="reset"] {
 
 .forecast-container .forecast.today .degree .num {
   font-size: 90px;
-  font-size: 6.4285714286rem;
+  font-size: 2.4285714286rem;
   margin-right: 30px;
 }
 
@@ -1992,73 +2000,6 @@ form input[type="reset"] {
   color: white;
 }
 
-.live-camera {
-  margin-bottom: 30px;
-}
-
-.live-camera .live-camera-cover {
-  position: relative;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-
-.live-camera .live-camera-cover:after {
-  content: " ";
-  width: 45px;
-  height: 45px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  background: url(images/play-button.png);
-}
-
-.live-camera .live-camera-cover img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  border-radius: 5px;
-}
-
-.live-camera .location {
-  margin-bottom: 5px;
-  color: white;
-  font-weight: 300;
-}
-
-.news {
-  padding-left: 100px;
-  position: relative;
-}
-
-.news:after {
-  content: " ";
-  width: 12px;
-  height: 7px;
-  background: url(images/arrow.png);
-  display: block;
-}
-
-.news .date {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: #009ad8;
-  font-size: 24px;
-  font-size: 1.7142857143em;
-}
-
-.news h3 {
-  font-size: 14px;
-  font-size: 1em;
-}
-
-.news h3 a {
-  color: white;
-}
 
 .arrow-feature {
   list-style-type: none;

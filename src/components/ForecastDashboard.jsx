@@ -2,18 +2,32 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import formatDate from '../utils/convertTime';
-import { getCurrentConditions } from '../services/getLocation';
 import getDayOfWeek from '../utils/getCurrentDay';
-import LoadingBar from './LoadingBar';
+import { getCurrentConditions } from '../services/getLocation';
 import { useCurrentLocationContext } from '../context/currentLocationContext';
+import { getFiveDayForecast } from "../services/getFiveDaysForecast";
+import LoadingBar from './LoadingBar';
+import DailyForecast from './DailyForecast';
 
 const ForecastDashboard = () => {
     const navigate = useNavigate();
     const { locationKey } = useParams();
     const [location, setLocation] = useState([]);
     const { selectedLocation } = useCurrentLocationContext();
-
+    const [fiveDayForecast, setFiveDayForecast] = useState([]);
     let currentDate = '';
+
+
+
+    useEffect(() => {
+        const result = getFiveDayForecast(selectedLocation.Key)
+            .then(data => setFiveDayForecast(data.DailyForecasts))
+            .catch(err =>
+                console.log(err))
+    }, [selectedLocation]);
+
+
+
     useEffect(() => {
         const fetchCurrentConditions = async () => {
             try {
@@ -37,7 +51,6 @@ const ForecastDashboard = () => {
         console.log('Loading...');
         return <LoadingBar />
     }
-
     return (
         <div className="forecast-table">
             <div className="container">
@@ -62,7 +75,7 @@ const ForecastDashboard = () => {
                                 />
                                 {location.HasPrecipitation ? (
                                     <>
-                                        {location.PrecipitationType} - {location.Precip1hr.Metric.Value}  {location.Precip1hr.Metric.Unit}</>
+                                        {location.PrecipitationType} - {location.PrecipitationSummary.Precipitation.Metric.Value}  {location.Precip1hr.Metric.Unit}</>
 
                                 ) : ("0 %")}
                             </span>
@@ -80,9 +93,20 @@ const ForecastDashboard = () => {
                             </span>
                         </div>
                     </div>
+
+                    {fiveDayForecast.length > 0 && fiveDayForecast.map(forecast => (
+                        <DailyForecast key={forecast} forecast={forecast} />
+                    ))}
+
                 </div>
             </div>
         </div>
+
+
+
+
+
+
     );
 };
 
