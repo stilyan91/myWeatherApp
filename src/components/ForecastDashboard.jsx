@@ -31,6 +31,7 @@ const ForecastDashboard = () => {
     useEffect(() => {
         const fetchCurrentConditions = async () => {
             try {
+                console.log(locationKey)
                 const data = await getCurrentConditions(locationKey);
                 setLocation(data[0]);
             } catch (error) {
@@ -51,6 +52,7 @@ const ForecastDashboard = () => {
         console.log('Loading...');
         return <LoadingBar />
     }
+
     return (
         <div className="forecast-table">
             <div className="container">

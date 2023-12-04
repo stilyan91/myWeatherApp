@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import ForecastDashboard from './components/ForecastDashboard';
 import { LocationProvider } from './context/currentLocationContext';
 import Register from './components/Register';
+import Login from './components/Login';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/:locationKey" element={<ForecastDashboard />} />
                 </Routes>
             </LocationProvider>

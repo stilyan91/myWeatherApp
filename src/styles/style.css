@@ -30,6 +30,7 @@ template {
 
 html {
   height: 100%;
+  overflow: hidden;
   background: #fff;
   color: #000;
   -webkit-text-size-adjust: 100%;
@@ -2404,4 +2405,9 @@ form input[type="reset"] {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* Login  */
+#login-page {
+  margin: auto;
 }
