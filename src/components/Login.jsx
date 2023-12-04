@@ -35,14 +35,17 @@ export default function Login() {
                 },
                 body: JSON.stringify(values)
             });
+
             if (response.status === 204) {
                 return {}
-            }
+            };
+
             const result = await response.json();
 
             if (!response.ok) {
                 throw response
             };
+            navigate('/');
             return result;
 
         } catch (err) {
