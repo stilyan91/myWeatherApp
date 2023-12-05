@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function usePersistedState(key, defaultValue) {
     const [state, setState] = useState(() => {
@@ -6,10 +6,11 @@ export default function usePersistedState(key, defaultValue) {
 
         if (persistedState) {
             return JSON.parse(persistedState);
-        };
+        }
 
         return defaultValue;
     });
+
     const setPersistedState = (value) => {
         setState(value);
 
@@ -21,9 +22,10 @@ export default function usePersistedState(key, defaultValue) {
         }
 
         localStorage.setItem(key, serializedValue);
-    }
-    return (
+    };
+
+    return [
         state,
-        setPersistedState
-    )
+        setPersistedState,
+    ];
 }

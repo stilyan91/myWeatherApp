@@ -1,18 +1,17 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-
+import { useContext, useState } from 'react';
+import usePersistedState from '../hooks/usePersistedState';
+import AuthContext from '../context/authContext';
 
 const baseUrl = 'http://localhost:3030/users/login'
-const LoginFormKyes = {
+const LoginFormKeys = {
     Email: 'email',
     Password: 'password',
 }
 
 export default function Login() {
-    const [values, setValues] = useState(LoginFormKyes);
-    const navigate = useNavigate();
-
-
+    const { loginHandler } = useContext(AuthContext);
+    const [values, setValues] = useState(LoginFormKeys);
     const onChange = (e) => {
 
         setValues(state => ({
@@ -24,34 +23,7 @@ export default function Login() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-
-        const token = localStorage.getItem('accessToken');
-        try {
-            const response = await fetch(`${baseUrl}`, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                    ...(token && { 'X-Authorization': token })
-                },
-                body: JSON.stringify(values)
-            });
-
-            if (response.status === 204) {
-                return {}
-            };
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw response
-            };
-            navigate('/');
-            return result;
-
-        } catch (err) {
-            console.log(err);
-        };
-
+        loginHandler(values.email, values.password)
     };
 
 
@@ -65,19 +37,19 @@ export default function Login() {
                     <input
                         type="email"
                         id="email"
-                        name={LoginFormKyes.Email}
+                        name={LoginFormKeys.Email}
                         placeholder="Sokka@gmail.com"
                         onChange={onChange}
-                        value={values[LoginFormKyes.Email]}
+                        value={values[LoginFormKeys.Email]}
                     />
 
                     <label htmlFor="login-pass">Password:</label>
                     <input
                         type="password"
                         id="login-password"
-                        name={LoginFormKyes.Password}
+                        name={LoginFormKeys.Password}
                         onChange={onChange}
-                        value={values[LoginFormKyes.Password]}
+                        value={values[LoginFormKeys.Password]}
                     />
                     <br />
                     <input type="submit" className="btn submit" value="Login" />

@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const RegisterFormKeys = {
-    Email: 'email',
-    Password: 'password',
-    ConfirmPassword: 'confirm-password',
+    email: '',
+    password: '',
+    'confirm-password': '',
 };
 
 const baseUrl = 'http://localhost:3030/users';
@@ -22,7 +22,6 @@ export default function Register() {
             [e.target.name]: e.target.value
         }))
     };
-
     const onSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('accessToken');
@@ -37,21 +36,23 @@ export default function Register() {
                     },
                     body: JSON.stringify(values)
                 }));
-            if (!response.status === 204) {
-                return {}
+
+            if (response.status === 204) {
+                navigate('/login');
+                return;
             }
             const result = await response.json();
 
             if (!response.ok) {
-                throw result;
+                throw new Error("Register failed");
             }
 
-            return result;
+            navigate('/login');
+
         } catch (err) {
             console.log(err)
         };
 
-        navigate('/')
     }
     return (
         <section id="register-page" className="content auth">
@@ -68,7 +69,7 @@ export default function Register() {
                         name="email"
                         placeholder="maria@email.com"
                         onChange={onChange}
-                        value={values[RegisterFormKeys.Email]}
+                        value={values[RegisterFormKeys.email]}
                     />
 
                     <label htmlFor="pass">Password:</label>
@@ -78,7 +79,7 @@ export default function Register() {
                         name="password"
                         id="register-password"
                         onChange={onChange}
-                        values={values[RegisterFormKeys.Password]}
+                        values={values[RegisterFormKeys.password]}
                     />
 
                     <label htmlFor="con-pass">Confirm Password:</label>
@@ -88,7 +89,7 @@ export default function Register() {
                         name="confirm-password"
                         id="confirm-password"
                         onChange={onChange}
-                        values={values[RegisterFormKeys.ConfirmPassword]}
+                        values={values[RegisterFormKeys['confirm-password']]}
                     />
                     <br />
                     <br />
