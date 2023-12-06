@@ -9,8 +9,8 @@ export default function DailyForecast({
     const day = getDayOfWeek(currentDate)
     const onClickHandler = (forecast) => {
         window.open(forecast.MobileLink, '_blank');
-    }
-    console.log(forecast)
+    };
+
     return (
         <div className="forecast" style={{ cursor: 'pointer' }}>
             <div className="forecast-header">

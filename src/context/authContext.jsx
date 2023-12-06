@@ -19,14 +19,15 @@ export const AuthProvider = ({
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
-                    ...(token && { 'X-Authorization': token })
                 },
                 body: JSON.stringify({ email, password })
             });
+
             if (response.status === 204) {
                 return {}
             };
             const result = await response.json();
+            console.log(response)
 
             if (!response.ok) {
                 throw new Error(result.message);

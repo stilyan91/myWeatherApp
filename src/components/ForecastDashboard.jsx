@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import formatDate from '../utils/convertTime';
@@ -8,16 +8,18 @@ import { useCurrentLocationContext } from '../context/currentLocationContext';
 import { getFiveDayForecast } from "../services/getFiveDaysForecast";
 import LoadingBar from './LoadingBar';
 import DailyForecast from './DailyForecast';
+import { Button } from 'react-bootstrap';
+import AuthContext from '../context/authContext';
 
 const ForecastDashboard = () => {
     const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
     const { locationKey } = useParams();
     const [location, setLocation] = useState([]);
     const { selectedLocation } = useCurrentLocationContext();
     const [fiveDayForecast, setFiveDayForecast] = useState([]);
     let currentDate = '';
-
-
+    const token = localStorage.getItem('accessToken')
 
     useEffect(() => {
         const result = getFiveDayForecast(selectedLocation.Key)
@@ -31,8 +33,7 @@ const ForecastDashboard = () => {
     useEffect(() => {
         const fetchCurrentConditions = async () => {
             try {
-                console.log(locationKey)
-                const data = await getCurrentConditions(locationKey);
+                const data = await getCurrentConditions(selectedLocation.Key);
                 setLocation(data[0]);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -42,6 +43,23 @@ const ForecastDashboard = () => {
         fetchCurrentConditions()
     }, [locationKey]);
 
+    const onClickHandler = async () => {
+        try {
+            const response = await fetch(`http://localhost:3030/data/favorites`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    "X-Authorization": token
+                },
+                body: JSON.stringify(selectedLocation)
+            })
+            const result = await response.json();
+
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     if (location && location.LocalObservationDateTime) {
         currentDate = formatDate(location.LocalObservationDateTime)
@@ -99,10 +117,11 @@ const ForecastDashboard = () => {
                     {fiveDayForecast.length > 0 && fiveDayForecast.map(forecast => (
                         <DailyForecast key={forecast} forecast={forecast} />
                     ))}
-
                 </div>
             </div>
-        </div>
+            {isAuthenticated && <Button variant="info" className="bottom-right-button" onClick={onClickHandler}>Add to Favorites </Button>}
+        </div >
+
 
 
 

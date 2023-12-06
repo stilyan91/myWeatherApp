@@ -1688,7 +1688,7 @@ form input[type="reset"] {
 
 .menu a:hover {
   background-color: #555;
-  /* Background color on hover */
+
 }
 
 .main-navigation .menu-toggle:hover,
@@ -1801,7 +1801,24 @@ form input[type="reset"] {
   padding: 0 40px;
 }
 
+.forecast-table {
+  position: relative;
+
+}
+
+.forecast-table .forecast-container {
+  position: relative;
+  top: 50px;
+}
+
+.bottom-right-button {
+  position: absolute;
+  bottom: 0px;
+  right: 20px;
+}
+
 .forecast-container {
+  align-self: flex-end;
   width: 100%;
   background: #323544;
   display: flex;

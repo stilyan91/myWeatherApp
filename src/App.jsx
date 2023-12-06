@@ -24,7 +24,7 @@ function App() {
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/logout" element={<Logout />} />
-                        <Route path="/login" element={<Favorites />} />
+                        <Route path="/MyFavorites" element={<Favorites />} />
                         <Route path="/:locationKey" element={<ForecastDashboard />} />
                     </Routes>
                 </LocationProvider>

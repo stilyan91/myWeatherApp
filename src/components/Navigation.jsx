@@ -19,7 +19,7 @@ const Navigation = () => {
                 {isAuthenticated
                     ? (
                         <>
-                            <li className="menu-item"> <Link to="/login">Favorites</Link></li>
+                            <li className="menu-item"> <Link to="/MyFavorites">Favorites</Link></li>
                             <li className="menu-item"> <Link to="/logout">Logout</Link></li>
                         </>
 

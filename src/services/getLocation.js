@@ -23,9 +23,11 @@ export const getLocation = async (location) => {
 
 
 export const getCurrentConditions = async (locationKey) => {
+    console.log(locationKey)
     const baseUrl = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuWeatherApiKey}&language=en-us&details=true`
     try {
         const response = await fetch(baseUrl)
+
         if (response.status === 400) {
             throw new Error(`Bad location key ${locationKey}`)
         }
