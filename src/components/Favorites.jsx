@@ -16,7 +16,7 @@ export default function Favorites() {
 
     return (
         <div className={styles.cardContainer}>
-            {favorites && favorites.map(favorite => <FavCard favorite={favorite} />)}
+            {favorites && favorites.map(favorite => <FavCard key={favorite.Key} favorite={favorite} />)}
         </div>
     );
 };
