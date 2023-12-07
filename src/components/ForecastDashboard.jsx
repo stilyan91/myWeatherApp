@@ -10,6 +10,7 @@ import LoadingBar from './LoadingBar';
 import DailyForecast from './DailyForecast';
 import { Button } from 'react-bootstrap';
 import AuthContext from '../context/authContext';
+import { getFavorites } from '../services/getFavorites';
 
 const ForecastDashboard = () => {
     const navigate = useNavigate();
@@ -18,8 +19,10 @@ const ForecastDashboard = () => {
     const [location, setLocation] = useState([]);
     const { selectedLocation } = useCurrentLocationContext();
     const [fiveDayForecast, setFiveDayForecast] = useState([]);
+    const [favorites, setFavorites] = useState([]);
     let currentDate = '';
     const token = localStorage.getItem('accessToken')
+
 
     useEffect(() => {
         const result = getFiveDayForecast(selectedLocation.Key)
@@ -27,8 +30,6 @@ const ForecastDashboard = () => {
             .catch(err =>
                 console.log(err))
     }, [selectedLocation]);
-
-
 
     useEffect(() => {
         const fetchCurrentConditions = async () => {
@@ -41,7 +42,16 @@ const ForecastDashboard = () => {
             }
         };
         fetchCurrentConditions()
+        if (isAuthenticated) {
+            getFavorites()
+                .then(data => setFavorites(data))
+                .catch(err => console.log(err))
+        };
+
     }, [locationKey]);
+
+    const disabledButton = favorites.some((obj) => obj.Key === selectedLocation.Key)
+
 
     const onClickHandler = async () => {
         try {
@@ -54,6 +64,7 @@ const ForecastDashboard = () => {
                 body: JSON.stringify(selectedLocation)
             })
             const result = await response.json();
+            navigate('/MyFavorites')
 
 
         } catch (err) {
@@ -114,12 +125,19 @@ const ForecastDashboard = () => {
                         </div>
                     </div>
 
-                    {fiveDayForecast.length > 0 && fiveDayForecast.map(forecast => (
-                        <DailyForecast key={forecast} forecast={forecast} />
+                    {fiveDayForecast.length > 0 && fiveDayForecast.map((forecast, index) => (
+                        <DailyForecast key={index} forecast={forecast} />
                     ))}
                 </div>
             </div>
-            {isAuthenticated && <Button variant="info" className="bottom-right-button" onClick={onClickHandler}>Add to Favorites </Button>}
+            {isAuthenticated && <Button
+                variant="info"
+                className="bottom-right-button"
+                onClick={onClickHandler}
+                disabled={disabledButton}
+            >
+                Add to Favorites
+            </Button>}
         </div >
 
 

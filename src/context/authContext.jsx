@@ -27,7 +27,6 @@ export const AuthProvider = ({
                 return {}
             };
             const result = await response.json();
-            console.log(response)
 
             if (!response.ok) {
                 throw new Error(result.message);
