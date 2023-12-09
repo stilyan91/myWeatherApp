@@ -1,16 +1,24 @@
 import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCurrentConditions } from '../services/getLocation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { deleteFavorite } from '../services/deleteFavorite';
 
 import formatDate from '../utils/convertTime';
 import getDayOfWeek from '../utils/getCurrentDay';
+import AuthContext from '../context/authContext';
 
 export default function FavCard({
-    favorite
+    favorite,
 }) {
+
+    const { isAuthenticated } = useContext(AuthContext);
+    const token = localStorage.getItem('accessToken');
+    const navigate = useNavigate();
     let currentDate = '';
     const [forecast, setForecast] = useState({});
+
     useEffect(() => {
         getCurrentConditions(favorite.Key)
             .then(data => {
@@ -20,11 +28,23 @@ export default function FavCard({
 
     }, []);
 
+    const deleteHandler = async () => {
+        navigate(`/MyFavorites/${favorite.LocalizedName}/delete`)
+        await deleteFavorite(favorite, token);
+        navigate('/MyFavorites');
+
+    };
+
+    const editHandler = async (favorite) => {
+        navigate('/', { state: { favoriteToEdit: favorite } })
+    };
+    const onClickHandler = () => {
+        window.open(forecast.MobileLink, '_blank');
+    };
     if (forecast && forecast.LocalObservationDateTime) {
         currentDate = formatDate(forecast.LocalObservationDateTime)
     };
 
-    console.log(favorite.Key, forecast)
     return (
         <Card style={{ width: '18rem' }}>
             <Card.Body>
@@ -38,14 +58,13 @@ export default function FavCard({
                     }
                     {forecast.WeatherIcon && <img src={`images/icons/icon-${forecast.WeatherIcon}.svg`} alt="" width={90} />}
                 </Card.Text>
-                <Link
-                    style={{ background: "#009ad8" }}
-                    to={{
-                        pathname: `/MyFavorites/${encodeURIComponent(favorite.LocalizedName)}`,
-                        state: { favorite: favorite }
-                    }}
-                >Get More Info
-                </Link>
+                <Button variant="primary" onClick={() => onClickHandler(forecast)}>
+                    Click for More Info
+                </Button>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-around', marginTop: '10px' }}>
+                    <Button variant="primary" onClick={() => editHandler(favorite)}>Edit</Button>
+                    <Button variant="primary" onClick={() => deleteHandler(favorite)}>Delete</Button>
+                </div>
             </Card.Body>
         </Card >
     )

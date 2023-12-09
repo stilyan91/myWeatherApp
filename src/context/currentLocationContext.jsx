@@ -1,7 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-// Create a location context
+
 const LocationContext = createContext();
-// Create a  custom hook
 export const useCurrentLocationContext = () => useContext(LocationContext);
 const initialState = {
     Version: 1,

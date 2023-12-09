@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 import formatDate from '../utils/convertTime';
 import getDayOfWeek from '../utils/getCurrentDay';
@@ -8,21 +9,23 @@ import { useCurrentLocationContext } from '../context/currentLocationContext';
 import { getFiveDayForecast } from "../services/getFiveDaysForecast";
 import LoadingBar from './LoadingBar';
 import DailyForecast from './DailyForecast';
-import { Button } from 'react-bootstrap';
 import AuthContext from '../context/authContext';
 import { getFavorites } from '../services/getFavorites';
+import { deleteFavorite } from '../services/deleteFavorite';
+
 
 const ForecastDashboard = () => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useContext(AuthContext);
-    const { locationKey } = useParams();
+    const { isAuthenticated, userId } = useContext(AuthContext);
     const [location, setLocation] = useState([]);
     const { selectedLocation } = useCurrentLocationContext();
     const [fiveDayForecast, setFiveDayForecast] = useState([]);
     const [favorites, setFavorites] = useState([]);
     let currentDate = '';
+    const loc = useLocation();
     const token = localStorage.getItem('accessToken')
-
+    const forEditing = loc.state?.forEditing
+    const favoriteToEdit = loc.state?.favoriteToEdit
 
     useEffect(() => {
         const result = getFiveDayForecast(selectedLocation.Key)
@@ -44,16 +47,42 @@ const ForecastDashboard = () => {
         fetchCurrentConditions()
         if (isAuthenticated) {
             getFavorites()
-                .then(data => setFavorites(data))
+                .then(data => {
+                    const filteredData = data.filter((fav) => fav._ownerId === userId)
+                    setFavorites(filteredData)
+                })
                 .catch(err => console.log(err))
         };
 
-    }, [locationKey]);
+    }, [selectedLocation.Key]);
 
-    const disabledButton = favorites.some((obj) => obj.Key === selectedLocation.Key)
+    const buttonState = favorites.some((obj) => obj.Key === selectedLocation.Key)
 
+    const deleteOnClickHandler = async () => {
+        const getFavoriteForDelete = favorites.find((fav) => fav.Key === selectedLocation.Key);
+        await deleteFavorite(getFavoriteForDelete, token);
+        navigate('/MyFavorites')
 
-    const onClickHandler = async () => {
+    };
+    const editOnClickHandler = async () => {
+        try {
+            const response = await fetch(`http://localhost:3030/data/favorites/${favoriteToEdit._id}`, {
+                method: "PUT",
+                headers: {
+                    'content-type': 'application/json',
+                    'X-Authorization': token,
+                },
+                body: JSON.stringify(selectedLocation)
+            });
+            const result = await response.json();
+            navigate('/MyFavorites')
+
+        } catch (err) {
+            console.error(`Error: ${err.message}`)
+        }
+    };
+
+    const addOnClickHandler = async () => {
         try {
             const response = await fetch(`http://localhost:3030/data/favorites`, {
                 method: "POST",
@@ -130,23 +159,36 @@ const ForecastDashboard = () => {
                     ))}
                 </div>
             </div>
-            {isAuthenticated && <Button
-                variant="info"
-                className="bottom-right-button"
-                onClick={onClickHandler}
-                disabled={disabledButton}
-            >
-                Add to Favorites
-            </Button>}
-        </div >
 
+            {
+                forEditing ? (
+                    <Button
+                        variant="info"
+                        className="bottom-right-button"
+                        onClick={editOnClickHandler}>
+                        Edit
+                    </Button>
+                ) : (
+                    buttonState ? (
+                        <Button
+                            variant="info"
+                            className="bottom-right-button"
+                            onClick={deleteOnClickHandler}
+                        > Remove from Favorites
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="info"
+                            className="bottom-right-button"
+                            onClick={addOnClickHandler}
+                        >
+                            Add to Favorites
+                        </Button>
+                    )
+                )
 
-
-
-
-
-
-    );
-};
+            }
+        </div>)
+}
 
 export default ForecastDashboard;

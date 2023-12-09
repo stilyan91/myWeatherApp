@@ -1,5 +1,5 @@
 import { useState, } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import LocationListItem from './LocationListItem';
 import { getLocation } from '../services/getLocation';
@@ -8,6 +8,15 @@ import styleLocation from '../styles/locationsList.module.css';
 import { useCurrentLocationContext } from '../context/currentLocationContext';
 
 const SearchBar = () => {
+    let favoriteToEdit = {};
+    let forEditing = false;
+    const loc = useLocation();
+
+    if (loc.state) {
+        favoriteToEdit = loc.state.favoriteToEdit
+        forEditing = true
+    }
+
     const [locationQuery, setLocationQuery] = useState('');
     const [resultLocation, setResultLocation] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -29,9 +38,8 @@ const SearchBar = () => {
     };
 
     const selectLocationHandler = (desiredLocation) => {
-        console.log("Setting selected location:", desiredLocation);
         setSelectedLocation(desiredLocation);
-        navigate('/' + desiredLocation.Key, { replace: true })
+        navigate('/' + desiredLocation.Key, { state: { forEditing, favoriteToEdit } }, { replace: true })
     };
 
     return (
@@ -52,7 +60,9 @@ const SearchBar = () => {
                         {showSuggestions && resultLocation.map((location) => (
                             <LocationListItem key={location.Key}
                                 location={location}
-                                onSelectLocation={selectLocationHandler} />
+                                onSelectLocation={selectLocationHandler}
+                                favoriteToEdit={favoriteToEdit}
+                                forEditing={forEditing} />
                         ))
                         }
                     </ul>

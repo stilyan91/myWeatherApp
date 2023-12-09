@@ -11,7 +11,7 @@ export const get12HoursForecast = async (locationKey) => {
         return result;
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
     };
 };
 

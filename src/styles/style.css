@@ -1817,6 +1817,13 @@ form input[type="reset"] {
   right: 20px;
 }
 
+.bottom-right-button:nth-child(2) {
+  background-color: #009ad8;
+  position: absolute;
+  bottom: 0px;
+  right: 220px;
+}
+
 .forecast-container {
   align-self: flex-end;
   width: 100%;

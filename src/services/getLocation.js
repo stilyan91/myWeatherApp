@@ -21,7 +21,6 @@ export const getLocation = async (location) => {
 };
 
 
-
 export const getCurrentConditions = async (locationKey) => {
     const baseUrl = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuWeatherApiKey}&language=en-us&details=true`
     try {
