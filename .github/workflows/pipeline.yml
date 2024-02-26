@@ -19,6 +19,7 @@ jobs:
       - name: run server
         run: |
           cd server
+          npm install 
           npm start server.js
 
   deploy:
