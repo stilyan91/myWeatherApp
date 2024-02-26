@@ -4,7 +4,7 @@ export const deleteFavorite = async (favorite, token) => {
     const hasConfirmed = confirm(`Are you sure you want to delete ${favorite.LocalizedName} ${favorite.Country.LocalizedName}`)
     if (hasConfirmed) {
         try {
-            const response = await fetch(`http://localhost:3030/data/favorites/${favorite._id}`, {
+            const response = await fetch(`https://localhost:3030/data/favorites/${favorite._id}`, {
                 method: "DELETE",
                 headers: {
                     'content-type': 'application/json',
