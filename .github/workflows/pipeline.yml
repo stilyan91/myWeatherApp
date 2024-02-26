@@ -15,5 +15,18 @@ jobs:
           node-version: 20.x
       - name: Install node modules
         run: npm install
-      - name: Run app
-        run: npm run dev
+      - name: Build app
+        run: npm run build
+      - name: run server
+        run: cd server
+          npm start server.js
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.MY_RENDER_API_KEY }}
