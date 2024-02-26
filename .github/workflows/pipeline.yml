@@ -26,3 +26,10 @@ jobs:
         with:
           service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
           api-key: ${{ secrets.MY_RENDER_API_KEY }}
+      - name: Install node modules
+        run: npm install
+      - name: Run server
+        run: |
+          cd server
+          npm install
+          npm start server.js
