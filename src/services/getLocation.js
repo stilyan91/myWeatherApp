@@ -7,7 +7,7 @@ export const getLocation = async (location) => {
         throw new Error("Invalid characters in location");
 
     }
-    const baseUrl = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${accuWeatherApiKey}&q=${location}${language} `;
+    const baseUrl = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${accuWeatherApiKey}&q=${location}${language} `;
     try {
         const response = await fetch(baseUrl)
         if (!response.ok) {
@@ -22,7 +22,7 @@ export const getLocation = async (location) => {
 
 
 export const getCurrentConditions = async (locationKey) => {
-    const baseUrl = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuWeatherApiKey}&language=en-us&details=true`
+    const baseUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${accuWeatherApiKey}&language=en-us&details=true`
     try {
         const response = await fetch(baseUrl)
 
