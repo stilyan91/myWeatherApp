@@ -17,7 +17,7 @@ jobs:
       - name: Install node modules
         run: npm install
       - name: build
-        run: npm audit fix
+        run: vite build
 
   deploy:
     needs: build
