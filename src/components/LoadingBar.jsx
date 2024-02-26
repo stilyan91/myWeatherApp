@@ -1,4 +1,4 @@
-import style from '../styles/LoadingBar.module.css';
+import style from '../styles/loadingBar.module.css';
 
 export default function LoadingBar() {
     return (
