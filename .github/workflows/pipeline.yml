@@ -15,8 +15,6 @@ jobs:
           node-version: 20.x
       - name: Install node modules
         run: npm install
-      - name: Build app
-        run: npm run build
       - name: run server
         run: cd server
           npm start server.js
